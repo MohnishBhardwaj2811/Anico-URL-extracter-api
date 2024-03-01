@@ -59,8 +59,7 @@ def get_home(user_id):
     except:
         return {"data" : "data not found" , "data_code": 404 }
 
-if __name__ == "__main__":
-    app.run(debug = True , port = "8000")
+
 
 
 
