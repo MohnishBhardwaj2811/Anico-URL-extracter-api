@@ -2,7 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from flask import Flask , request , jsonify , render_template
-from webdriver_manager.chrome import ChromeDeriverManager
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 # Set up Chrome options
 chrome_options = Options()
