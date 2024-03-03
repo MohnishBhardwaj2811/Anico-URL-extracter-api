@@ -2,3 +2,4 @@ Flask
 Gunicorn
 selenium
 chromedriver-py
+webdriver-manager
