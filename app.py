@@ -1,9 +1,8 @@
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from flask import Flask , request , jsonify , render_template
-
+from webdriver_manager.chrome import ChromeDeriverManager
 
 # Set up Chrome options
 chrome_options = Options()
@@ -15,7 +14,7 @@ chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-images')  # Disable loading of images
 
 # Set up the Chrome webdriver with options
-driver = webdriver.Chrome(options=chrome_options)
+driver = webdriver.Chrome(service = Service(ChromrDriverManager().install(),options=chrome_options)
 driver.implicitly_wait(1)  # Set implicit wait to 5 seconds
 
 
