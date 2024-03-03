@@ -1,9 +1,9 @@
+from flask import Flask , request , jsonify , render_template
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from flask import Flask, request, jsonify, render_template
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
+from chromedriver_autoinstaller import install as install_chromedriver
+from selenium.webdriver.common.by import By
 
 # Set up Chrome options
 chrome_options = Options()
@@ -15,17 +15,19 @@ chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-images')  # Disable loading of images
 
 # Set up the Chrome webdriver with options
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-driver.implicitly_wait(1)  # Set implicit wait to 1 second
+#driver = webdriver.Chrome(options=chrome_options)
+driver = webdriver.Chrome(service=Service(), options=chrome_options)
+driver.implicitly_wait(1)  # Set implicit wait to 5 seconds
+
 
 def main(url):
     attempt = 1
     while True:
-        print("Attempted:" + str(attempt))
-        attempt += 1
+        print("Attempted:"+str(attempt))
+        attempt +=1
         driver.get(url)
         # Find elements directly without explicit waiting
-        download_elements = driver.find_elements(By.CLASS_NAME, 'download')
+        download_elements = driver.find_elements(By.CLASS_NAME, 'dowload')
 
         if download_elements:
             break
@@ -39,22 +41,26 @@ def main(url):
             # Print the extracted information
             data[download_text] = download_link
 
+    driver.quit()
     return data
 
-# Close the browser window
-# This should be placed outside the main function to ensure it gets called
-# even if an exception occurs.
+    # Close the browser window
+    driver.quit()
+
 app = Flask(__name__)
 
-    # Home
+#Home
 @app.route("/<user_id>")
 def get_home(user_id):
-    url = 'https://embtaku.pro/download?id=' + user_id
+
+    # user id = #MjIwNjY3&typesub=Gogoanime-SUB&title=Tousouchuu%3A+Great+Mission+Episode+44
+    url = 'https://embtaku.pro/download?id=' + user_id 
     print(user_id)
     try:
         data = main(url)
+        #data = dict_content(data)
         return jsonify(data)
     except:
-        return {"data": "data not found", "data_code": 404}
-    finally:
-        driver.quit()
+        return {"data" : "data not found" , "data_code": 404 }
+
+
