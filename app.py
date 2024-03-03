@@ -44,18 +44,17 @@ def main(url):
 # Close the browser window
 # This should be placed outside the main function to ensure it gets called
 # even if an exception occurs.
-try:
-    app = Flask(__name__)
+app = Flask(__name__)
 
     # Home
-    @app.route("/<user_id>")
-    def get_home(user_id):
-        url = 'https://embtaku.pro/download?id=' + user_id
-        print(user_id)
-        try:
-            data = main(url)
-            return jsonify(data)
-        except:
-            return {"data": "data not found", "data_code": 404}
+@app.route("/<user_id>")
+def get_home(user_id):
+    url = 'https://embtaku.pro/download?id=' + user_id
+    print(user_id)
+    try:
+        data = main(url)
+        return jsonify(data)
+    except:
+        return {"data": "data not found", "data_code": 404}
     finally:
         driver.quit()
